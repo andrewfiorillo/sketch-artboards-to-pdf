@@ -8,7 +8,5 @@ function currentPageToPDF(context) {
 
 function allPagesToPDF(context) {
 	var doc = context.document;
-	// var page = doc.currentPage();
-	// var pageArray = MSArray.dataArrayWithArray([page]);
 	doc.exportPDFBook(doc);
 }
