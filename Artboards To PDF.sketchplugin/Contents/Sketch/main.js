@@ -22,18 +22,16 @@ function selectedArtboardsToPDF(context){
 	// Check document for selected artboards
 	var selectionLayers = context.selection;
 
-	var hasSelectedArtboards = false;
+	var selectedArtboards = [];
 	if (doc.hasArtboards() && selectionLayers){
-		log(selectionLayers.count());
 		for (var i=0; i < selectionLayers.count(); i++){
 			if (selectionLayers[i].className() == "MSArtboardGroup"){
-				hasSelectedArtboards = true;
-				break;
+				selectedArtboards.push(selectionLayers[i]);
 			}
 		}
 	}
 
-	if (!hasSelectedArtboards){
+	if (selectedArtboards.length < 1){
 		[app displayDialog:"Please select an artboard" withTitle:"We couldn't find any selected artboards"];
 		return;
 	}
@@ -47,31 +45,32 @@ function selectedArtboardsToPDF(context){
 		var fileURL = saveDialog.URL();
 		log(fileURL);
 
-		var artboards = doc.artboards();
-		var selectedArtboardsCount = artboards.count();
+		// sort artboards according to visual order
+		var artboards = selectedArtboards.sort(sortVisualPosition);
+		var selectedArtboardsCount = artboards.length;
 
 		var pdf = PDFDocument.alloc().init();
 
 		for (var i=0; i < selectedArtboardsCount; i++){
 			var artboard = artboards[i];
-		    if (artboard.isSelected()){
+			log(artboard.frame().left() +","+ artboard.frame().top());
 
-		    	// To ensure that the filename will be safe
-		    	var name = cleanString(artboard.name());
+	    	// To ensure that the filename will be safe
+	    	var name = cleanString(artboard.name());
+	    	log(name);
 
-		    	// To avoid issues with artboards with the same name
-		    	var artboardId = artboard.objectID();
-		       
-		       	// It is quicker and a smaller filesize to export artboards as PDF rather than PNG.
-		       	// However the quality of the PNG export is better.
-		        var path = NSTemporaryDirectory() + artboardId + '/' + name + '.png';
-		        doc.saveArtboardOrSlice_toFile(artboard,path);
+	    	// To avoid issues with artboards with the same name
+	    	var artboardId = artboard.objectID();
+	       
+	       	// It is quicker and a smaller filesize to export artboards as PDF rather than PNG.
+	       	// However the quality of the PNG export is better.
+	        var path = NSTemporaryDirectory() + artboardId + '/' + name + '.png';
+	        doc.saveArtboardOrSlice_toFile(artboard,path);
 
-		        var image = [[NSImage alloc] initByReferencingFile:path];
-		        var page = [[PDFPage alloc] initWithImage:image];
+	        var image = [[NSImage alloc] initByReferencingFile:path];
+	        var page = [[PDFPage alloc] initWithImage:image];
 
-		        [pdf insertPage:page atIndex:[pdf pageCount]];
-		    }
+	        [pdf insertPage:page atIndex:[pdf pageCount]];		    
 		}
 
 		[pdf writeToURL: fileURL];
@@ -82,4 +81,12 @@ function cleanString(string){
 	var notAllowedChars = [NSCharacterSet characterSetWithCharactersInString:@"\\<>=,!#$&'()*+/:;=?@[]%"];
 	var cleanString = [[string componentsSeparatedByCharactersInSet:notAllowedChars] componentsJoinedByString:@""];
 	return cleanString;	
+}
+
+/*
+* Sorts artboards from left to right and top to bottom if in same column
+*/
+function sortVisualPosition(a,b){
+	var x = a.frame().left() - b.frame().left();
+  	return x == 0? a.frame().top() - b.frame().top() : x;
 }
