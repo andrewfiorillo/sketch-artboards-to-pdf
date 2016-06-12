@@ -3,7 +3,7 @@
 	"description": "Sketch plugin to export artboards to PDF slideshow, from either the current page or from all pages",
 	"author": "Andrew Fiorillo",
 	"homepage": "http://github.com/andrewfiorillo/sketch-artboards-to-pdf",
-	"version": "1.0",
+	"version": "1.1",
 	"identifier": "com.andrewfiorillo.sketch.sketch-artboards-to-pdf",
 	"compatibleVersion": "3",
 	"bundleVersion": "1",
@@ -21,11 +21,19 @@
 			"shortcut": "",
 			"script": "main.js",
 			"handler": "allPagesToPDF"
+		},
+		{
+			"name": "Export Selected Artboards",
+			"identifier": "selectedArtboardsToPDF",
+			"shortcut": "",
+			"script": "main.js",
+			"handler": "selectedArtboardsToPDF"
 		}
 	],
 	"menu": {
 		"items": [
 			"currentPageToPDF",
+			"selectedArtboardsToPDF",
 			"allPagesToPDF"
 		]
 	}
