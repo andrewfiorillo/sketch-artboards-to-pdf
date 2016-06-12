@@ -43,7 +43,6 @@ function selectedArtboardsToPDF(context){
 
 	if(saveDialog.runModal() == NSOKButton) {
 		var fileURL = saveDialog.URL();
-		log(fileURL);
 
 		// sort artboards according to visual order
 		var artboards = selectedArtboards.sort(sortVisualPosition);
@@ -53,11 +52,9 @@ function selectedArtboardsToPDF(context){
 
 		for (var i=0; i < selectedArtboardsCount; i++){
 			var artboard = artboards[i];
-			log(artboard.frame().left() +","+ artboard.frame().top());
 
 	    	// To ensure that the filename will be safe
 	    	var name = cleanString(artboard.name());
-	    	log(name);
 
 	    	// To avoid issues with artboards with the same name
 	    	var artboardId = artboard.objectID();
