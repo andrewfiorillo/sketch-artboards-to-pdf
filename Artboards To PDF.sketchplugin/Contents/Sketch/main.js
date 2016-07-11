@@ -3,8 +3,7 @@ function currentPageToPDF(context) {
 	var doc = context.document;
 	var page = doc.currentPage();
 	var pageName = page.name();
-	var pageArray = MSArray.dataArrayWithArray([page]);
-	
+	var pageArray = [page];
 	MSPDFBookExporter.exportPages_defaultFilename(pageArray, pageName +".pdf");
 }
 
