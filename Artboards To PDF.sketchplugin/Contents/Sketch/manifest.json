@@ -6,7 +6,7 @@
 	"version": "1.0",
 	"identifier": "com.andrewfiorillo.sketch.sketch-artboards-to-pdf",
 	"compatibleVersion": "3",
-	"bundleVersion": "1",
+	"bundleVersion": "1.1",
 	"commands": [
 		{
 			"name": "Export Current Page",
