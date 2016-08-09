@@ -21,11 +21,19 @@
 			"shortcut": "",
 			"script": "main.js",
 			"handler": "allPagesToPDF"
+		},
+		{
+			"name": "Export Selected Artboards",
+			"identifier": "selectedArtboardsToPDF",
+			"shortcut": "",
+			"script": "main.js",
+			"handler": "selectedArtboardsToPDF"
 		}
 	],
 	"menu": {
 		"items": [
 			"currentPageToPDF",
+			"selectedArtboardsToPDF",
 			"allPagesToPDF"
 		]
 	}
