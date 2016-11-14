@@ -5,7 +5,6 @@ function currentPageToPDF(context) {
 
 function selectedArtboardsToPDF(context) {
     var doc = context.document
-    var handler = doc.eventHandlerManager().normalHandler()
     
     var tempPage = MSPage.new()
     doc.documentData().addPage(tempPage)
@@ -22,10 +21,7 @@ function selectedArtboardsToPDF(context) {
         }
     }
     tempPage.addLayers(selectedArtboards)
-    
-    doc.documentData().setCurrentPage(tempPage)
     pageToPDF(tempPage)
-
     doc.documentData().removePage(tempPage)
 }
 
