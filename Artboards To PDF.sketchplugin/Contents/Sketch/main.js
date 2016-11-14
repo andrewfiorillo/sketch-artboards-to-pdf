@@ -16,6 +16,9 @@ function selectedArtboardsToPDF(context) {
     while (layer = selectionLoop.nextObject()) {
         if (layer.isMemberOfClass(MSArtboardGroup)) {
             selectedArtboards.addObject(layer.copy())
+        } else {
+            doc.showMessage("Only artboards allowed to proceed PDF export")
+            return
         }
     }
     tempPage.addLayers(selectedArtboards)
