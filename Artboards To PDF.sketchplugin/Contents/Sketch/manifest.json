@@ -8,15 +8,22 @@
 	"compatibleVersion": "3",
 	"bundleVersion": "1.1",
 	"commands": [
+        {
+        "name": "Export Selected Artboards...",
+        "identifier": "selectedArtboardsToPDF",
+        "shortcut": "",
+        "script": "main.js",
+        "handler": "selectedArtboardsToPDF"
+        },
 		{
-			"name": "Export Current Page",
+			"name": "Export Current Page...",
 			"identifier": "currentPageToPDF",
 			"shortcut": "",
 			"script": "main.js",
 			"handler": "currentPageToPDF"
 		},
 		{
-			"name": "Export All Pages",
+			"name": "Export All Pages...",
 			"identifier": "allPagesToPDF",
 			"shortcut": "",
 			"script": "main.js",
@@ -25,6 +32,7 @@
 	],
 	"menu": {
 		"items": [
+            "selectedArtboardsToPDF",
 			"currentPageToPDF",
 			"allPagesToPDF"
 		]
