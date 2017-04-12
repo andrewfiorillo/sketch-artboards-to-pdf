@@ -36,42 +36,31 @@ function currentPageToPDF(context) {
 
 
 function selectedArtboardsToPDF(context) {
+	
 	var doc = context.document;
 	var selection = context.selection;
 	
-	// Check for slection
+	// Chaeck for artboards in selection
 	
-	if (selection.length <= 0) {
+	var selectionContainsArtboards = false;
+	
+	for (var i = 0; i < selection.length; i++) {
+		if (selection[i].isMemberOfClass(MSArtboardGroup)) {
+			selectionContainsArtboards = true;
+		}
+	}
+	if (!selectionContainsArtboards) {
 		NSApp.displayDialog("No artboards selected!");
 		return;
 	}
+	
 	
 	// Creat temporary page to house selected artboards
 	
 	var tempPage = MSPage.new();
 	doc.documentData().addPage(tempPage);
 	tempPage.setName("PDF Export");
-	
-	// Loop through selection to check for artboards and symbols
-	
-	var selectedArtboards = [];
-	
-	for (var i = 0; i < selection.length; i++) {
-		var layer = selection[i];
-		if (layer.isMemberOfClass(MSArtboardGroup)) {
-			selectedArtboards.push(layer.copy());
-		} else if (layer.isMemberOfClass(MSSymbolMaster)) {
-			var layerCopy = MSSymbolMaster.convertSymbolToArtboard(layer.copy());
-			selectedArtboards.push(layerCopy);
-		} else {
-			NSApp.displayDialog("Only artboards can be exported.");
-			return;
-		}
-	};
-	
-	// Add selected artboards to temporary page
-	
-	tempPage.addLayers(selectedArtboards);
+	tempPage.addLayers(selection);
 	
 	// Remove hidden layers
 	
@@ -81,7 +70,7 @@ function selectedArtboardsToPDF(context) {
 		if (layer.isVisible() == 0) {
 			layer.removeFromParent();
 		}
-	};
+	}
 	
 	// Detach symbols to prevent display bug
 	
@@ -91,7 +80,7 @@ function selectedArtboardsToPDF(context) {
 		if (layer.isMemberOfClass(MSSymbolInstance)) {
 			findAndDetachFromSymbol(layer);
 		}
-	};
+	}
 	
 	function findAndDetachFromSymbol(layer) {
 		if (layer.isMemberOfClass(MSSymbolInstance)) {
@@ -99,7 +88,7 @@ function selectedArtboardsToPDF(context) {
 			var children = group.children();
 			for (var i = 0; i < children.length; i++) {
 				findAndDetachFromSymbol(children[i]);
-			};
+			}
 		}
 	}
 	
