@@ -16,7 +16,10 @@ function pageToPDF(page) {
 
 function allPagesToPDF(context) {
 	var doc = context.document;
-	doc.exportPDFBook(doc);
+	var pages = doc.pages();
+	var documentName = doc.hudClientName().replace(".sketch","");
+	
+	MSPDFBookExporter.exportPages_defaultFilename(pages, documentName + ".pdf");
 }
 
 
