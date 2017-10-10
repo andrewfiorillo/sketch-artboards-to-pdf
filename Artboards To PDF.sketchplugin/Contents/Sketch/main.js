@@ -41,7 +41,19 @@ function currentPageToPDF(context) {
 function selectedArtboardsToPDF(context) {
 	
 	var doc = context.document;
-	var selection = context.selection;
+	var pages = doc.pages();
+	var selectedLayers = NSArray.array();
+	
+	for (var i = 0; i < pages.length; i++) {
+		var selectedLayersInPage = pages[i].selectedLayers().layers();
+		var numLayers = selectedLayersInPage.length;
+		
+		if (numLayers > 0) {
+			selectedLayers = selectedLayers.arrayByAddingObjectsFromArray(selectedLayersInPage);
+		}
+	};
+	
+	var selection = selectedLayers
 	
 	// Chaeck for artboards in selection
 	
