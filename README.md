@@ -1,3 +1,5 @@
+**This plugin is no longer actively maintained. If you are interested in working on it, please reach out.**
+
 # Artboards to PDF
 
 A Sketch plugin to export artboards to PDF slideshow.
